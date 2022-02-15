@@ -1,9 +1,21 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.logging.*;
 
 public class CuentaPalabras {
+
+    private static final String CLASS_NAME = CuentaPalabras.class.getSimpleName();
+    private final static Logger LOG = Logger.getLogger(CLASS_NAME);
+
     public static void main(String[] args) throws IOException {
+
+        FileHandler logFile = new FileHandler("Logging.txt");
+        SimpleFormatter plainText = new SimpleFormatter();
+        logFile.setFormatter(plainText);
+        LOG.addHandler(logFile);
+        LOG.setLevel(Level.ALL);
+
         int txt=1;
         //String target_dir = "Nombre_Directorio";
         File dir = new File(args[0]);
@@ -45,7 +57,7 @@ public class CuentaPalabras {
                 System.out.println("Falta el nombre de archivo");
                 System.exit(0);
             }
-
+            String name = f.getName();
             FileReader fi = null;
             try {
                 fi = new FileReader(f);
@@ -188,6 +200,7 @@ public class CuentaPalabras {
                     System.out.println("Palabras vacias archivo: "+ palabrasVacias);
                     double porcent = palabrasCompletas*100/(wordCount - numberCount);
                     System.out.println("Porcentaje palabras utiles%palabras totales: " + porcent + "%");
+                    LOG.info( name+", "+wordCount+", "+palabrasCompletas+", "+wordsSet+"\n");
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
                     e.printStackTrace();
